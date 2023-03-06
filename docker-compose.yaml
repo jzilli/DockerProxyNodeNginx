@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: people
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+
+    networks:
+      - myNetworkFullCycle
+    ports:
+      - "3306:3306"
+
+  node:
+    build: ./node
+    container_name: nodeApp
+    tty: true
+    volumes:
+      - ./node:/usr/src/app
+    networks:
+      - myNetworkFullCycle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    container_name: webServer
+    networks:
+      - myNetworkFullCycle
+    ports:
+      - "8080:80"
+    depends_on:
+      - node
+
+networks:
+  myNetworkFullCycle: 
+    driver: bridge
