@@ -8,10 +8,11 @@ services:
     tty: true
     volumes:
       - ./mysql:/var/lib/mysql
+      - .docker/mysql:/docker-entrypoint-initdb.d
 
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: people
+      MYSQL_DATABASE: full_cycle
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
 
