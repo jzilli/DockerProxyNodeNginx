@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host: 'db',
     user: 'root',
     password: 'root',
-    database: 'people'
+    database: 'full_cycle'
   })
   
 app.get('/', (req, res) => {
